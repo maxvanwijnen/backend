@@ -23,7 +23,7 @@ public class InvoiceService {
 
     public Long createInvoice(InvoiceDto idto) {
         Invoice i = new Invoice();
-        i.setCustomerId(idto.customerId);
+
         i.setTotalBeforeTax(idto.totalBeforeTax);
         i.setTax(idto.tax);
         i.setTotalAfterTax(idto.totalAfterTax);
@@ -58,7 +58,7 @@ public class InvoiceService {
             InvoiceDto idto = new InvoiceDto();
             idto.id = i.getId();
             idto.tax = i.getTax();
-            idto.customerId = i.getCustomerId();
+
             idto.totalBeforeTax = i.getTotalBeforeTax();
             idto.totalAfterTax = i.getTotalAfterTax();
             idto.isPayed = i.isPayed();
@@ -77,7 +77,7 @@ public class InvoiceService {
             InvoiceDto idto = new InvoiceDto();
             idto.id = i.getId();
             idto.tax = i.getTax();
-            idto.customerId = i.getCustomerId();
+
             idto.totalBeforeTax = i.getTotalBeforeTax();
             idto.totalAfterTax = i.getTotalAfterTax();
             invoicesDtos.add(idto);

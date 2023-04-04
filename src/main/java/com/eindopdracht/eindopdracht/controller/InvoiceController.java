@@ -1,7 +1,9 @@
 package com.eindopdracht.eindopdracht.controller;
 
 import com.eindopdracht.eindopdracht.dto.CustomerDto;
+import com.eindopdracht.eindopdracht.dto.InvoiceDto;
 import com.eindopdracht.eindopdracht.service.CustomerService;
+import com.eindopdracht.eindopdracht.service.InvoiceService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,25 +19,26 @@ import java.util.List;
 @RequestMapping("invoices")
 public class InvoiceController {
 
-    private final CustomerService service;
+    private final InvoiceService service;
 
-    public InvoiceController(CustomerService service) {
+    public InvoiceController(InvoiceService service) {
         this.service = service;
 
     }
 
    @GetMapping
-    ResponseEntity<List<CustomerDto>> getCustomers() {
-        List<CustomerDto> cdtos = service.getCustomers();
-        return ResponseEntity.ok(cdtos);
+    ResponseEntity<List<InvoiceDto>> getInvoices() {
+        List<InvoiceDto> idtos = service.getInvoices();
+        return ResponseEntity.ok(idtos);
     }
 
-    @GetMapping("/{id}")
+/*    @GetMapping("/{id}")
     ResponseEntity<CustomerDto> getCustomer(@PathVariable Long id) {
         CustomerDto cdto = service.getCustomer(id);
 
         return ResponseEntity.ok(cdto);
-    }
+    }*/
+/*
 
     @GetMapping("search")
     ResponseEntity<List> getCustomersBySearchParams (
@@ -47,11 +50,12 @@ public class InvoiceController {
         List<CustomerDto> cdtos = service.getCustomersBySearchParams(lastname, postcode, email, phone);
         return ResponseEntity.ok(cdtos);
     }
+*/
 
 
 
 
-    @PostMapping
+/*    @PostMapping
     public ResponseEntity<Object> createCustomer(@Valid @RequestBody CustomerDto cdto, BindingResult br) {
 
         if (br.hasFieldErrors()){
@@ -62,13 +66,13 @@ public class InvoiceController {
             }
             return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
-        Long id = service.createCustomer(cdto);
+        Long id = service.createInvoice(idto);
         cdto.id = id;
 
         URI uri = URI.create(ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/" + id).toUriString());
 
         return ResponseEntity.created(uri).body(cdto);
-    }
+    }*/
 
 }

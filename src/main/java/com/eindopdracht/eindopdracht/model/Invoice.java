@@ -1,9 +1,6 @@
 package com.eindopdracht.eindopdracht.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import javax.print.attribute.IntegerSyntax;
 import java.util.ArrayList;
@@ -16,9 +13,13 @@ public class Invoice {
     @GeneratedValue
     Long id;
 
-    Long customerId;
+
     Integer totalBeforeTax;
     Integer totalAfterTax;
+
+    @ManyToOne
+    @JoinTable(name = "customer_id")
+    private Customer customer;
 
     List<String> orderLines = new ArrayList();
 
@@ -41,12 +42,12 @@ public class Invoice {
         this.id = id;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(Long customer_id) {
-        this.customerId = customer_id;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Integer getTotalBeforeTax() {

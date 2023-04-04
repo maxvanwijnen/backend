@@ -1,15 +1,14 @@
 package com.eindopdracht.eindopdracht.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name="customers")
 public class Customer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     private String firstName;
@@ -19,6 +18,9 @@ public class Customer {
     private String postcode;
     private String phone;
     private String email;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Invoice> invoices;
 
     public Long getId() {
         return id;
