@@ -32,11 +32,11 @@ public class CustomerController {
         return ResponseEntity.ok(repos.findAll());
     }*/
 
-   /* @GetMapping
+   @GetMapping
     ResponseEntity<List<CustomerDto>> getCustomers() {
         List<CustomerDto> cdtos = service.getCustomers();
         return ResponseEntity.ok(cdtos);
-    }*/
+    }
 
     @GetMapping("/{id}")
     ResponseEntity<CustomerDto> getCustomer(@PathVariable Long id) {
@@ -45,18 +45,13 @@ public class CustomerController {
         return ResponseEntity.ok(cdto);
     }
 
-    @GetMapping
+    @GetMapping("search")
     ResponseEntity<List> getCustomersBySearchParams (
             @RequestParam(required = false) String lastname,
             @RequestParam(required = false) String postcode,
             @RequestParam(required = false) String email,
             @RequestParam(required = false) String phone
     ) {
-        if (lastname == null && postcode == null && email == null && phone == null) {
-            List<CustomerDto> cdtos = service.getCustomers();
-            return ResponseEntity.ok(cdtos);
-        }
-
         List<CustomerDto> cdtos = service.getCustomersBySearchParams(lastname, postcode, email, phone);
         return ResponseEntity.ok(cdtos);
     }
