@@ -1,12 +1,8 @@
 package com.eindopdracht.eindopdracht.controller;
 
 import com.eindopdracht.eindopdracht.dto.CustomerDto;
-import com.eindopdracht.eindopdracht.model.Customer;
-import com.eindopdracht.eindopdracht.repository.CustomerRepository;
 import com.eindopdracht.eindopdracht.service.CustomerService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,12 +14,12 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("customers")
-public class CustomerController {
+@RequestMapping("invoices")
+public class InvoiceController {
 
     private final CustomerService service;
 
-    public CustomerController(CustomerService service) {
+    public InvoiceController(CustomerService service) {
         this.service = service;
 
     }
