@@ -6,7 +6,11 @@ import com.eindopdracht.eindopdracht.repository.CustomerRepository;
 import com.eindopdracht.eindopdracht.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.BindResult;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -28,9 +32,49 @@ public class CustomerController {
         return ResponseEntity.ok(repos.findAll());
     }*/
 
-    @PostMapping
-    public ResponseEntity<CustomerDto> createCustomer(@Valid @RequestBody CustomerDto cdto) {
+   /* @GetMapping
+    ResponseEntity<List<CustomerDto>> getCustomers() {
+        List<CustomerDto> cdtos = service.getCustomers();
+        return ResponseEntity.ok(cdtos);
+    }*/
 
+    @GetMapping("/{id}")
+    ResponseEntity<CustomerDto> getCustomer(@PathVariable Long id) {
+        CustomerDto cdto = service.getCustomer(id);
+
+        return ResponseEntity.ok(cdto);
+    }
+
+    @GetMapping
+    ResponseEntity<List> getCustomersBySearchParams (
+            @RequestParam(required = false) String lastname,
+            @RequestParam(required = false) String postcode,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String phone
+    ) {
+        if (lastname == null && postcode == null && email == null && phone == null) {
+            List<CustomerDto> cdtos = service.getCustomers();
+            return ResponseEntity.ok(cdtos);
+        }
+
+        List<CustomerDto> cdtos = service.getCustomersBySearchParams(lastname, postcode, email, phone);
+        return ResponseEntity.ok(cdtos);
+    }
+
+
+
+
+    @PostMapping
+    public ResponseEntity<Object> createCustomer(@Valid @RequestBody CustomerDto cdto, BindingResult br) {
+
+        if (br.hasFieldErrors()){
+            StringBuilder sb = new StringBuilder();
+            for (FieldError fe : br.getFieldErrors()) {
+                sb.append(fe.getField() + ": ");
+                sb.append(fe.getDefaultMessage() + "\n");
+            }
+            return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
+        }
         Long id = service.createCustomer(cdto);
         cdto.id = id;
 
