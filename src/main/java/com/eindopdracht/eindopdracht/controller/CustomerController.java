@@ -4,6 +4,7 @@ import com.eindopdracht.eindopdracht.dto.CustomerDto;
 import com.eindopdracht.eindopdracht.model.Customer;
 import com.eindopdracht.eindopdracht.repository.CustomerRepository;
 import com.eindopdracht.eindopdracht.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class CustomerController {
     }*/
 
     @PostMapping
-    public ResponseEntity<CustomerDto> createCustomer(@RequestBody CustomerDto cdto) {
+    public ResponseEntity<CustomerDto> createCustomer(@Valid @RequestBody CustomerDto cdto) {
 
         Long id = service.createCustomer(cdto);
         cdto.id = id;
