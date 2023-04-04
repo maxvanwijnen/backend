@@ -26,31 +26,29 @@ public class InvoiceController {
 
     }
 
-   @GetMapping
+    @GetMapping
     ResponseEntity<List<InvoiceDto>> getInvoices() {
         List<InvoiceDto> idtos = service.getInvoices();
         return ResponseEntity.ok(idtos);
     }
 
-/*    @GetMapping("/{id}")
-    ResponseEntity<CustomerDto> getCustomer(@PathVariable Long id) {
-        CustomerDto cdto = service.getCustomer(id);
+    @GetMapping("/{id}")
+    ResponseEntity<InvoiceDto> getInvoice(@PathVariable Long id) {
+        InvoiceDto idto = service.getInvoice(id);
 
-        return ResponseEntity.ok(cdto);
-    }*/
-/*
+        return ResponseEntity.ok(idto);
+    }
 
-    @GetMapping("search")
-    ResponseEntity<List> getCustomersBySearchParams (
+
+  /*  @GetMapping("search")
+    ResponseEntity<List> getInvoicesBySearchParams (
             @RequestParam(required = false) String lastname,
-            @RequestParam(required = false) String postcode,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String phone
+
     ) {
         List<CustomerDto> cdtos = service.getCustomersBySearchParams(lastname, postcode, email, phone);
         return ResponseEntity.ok(cdtos);
-    }
-*/
+    }*/
+
 
 
 
