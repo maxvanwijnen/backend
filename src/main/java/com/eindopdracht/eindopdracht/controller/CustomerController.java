@@ -1,12 +1,10 @@
 package com.eindopdracht.eindopdracht.controller;
 
 import com.eindopdracht.eindopdracht.dto.CustomerDto;
-import com.eindopdracht.eindopdracht.model.Customer;
-import com.eindopdracht.eindopdracht.repository.CustomerRepository;
+import com.eindopdracht.eindopdracht.dto.InvoiceDto;
 import com.eindopdracht.eindopdracht.service.CustomerService;
+import com.eindopdracht.eindopdracht.service.InvoiceService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -22,10 +20,12 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService service;
+    private final InvoiceService invoiceService;
 
-    public CustomerController(CustomerService service) {
+    public CustomerController(CustomerService service, InvoiceService invoiceService) {
         this.service = service;
 
+        this.invoiceService = invoiceService;
     }
 
    @GetMapping
@@ -41,7 +41,15 @@ public class CustomerController {
         return ResponseEntity.ok(cdto);
     }
 
-    @GetMapping("search")
+    @GetMapping("/{id}/invoices")
+    ResponseEntity<List> getInvoice(@PathVariable Long id) {
+
+        List<InvoiceDto> idtos = invoiceService.getInvoicesBySearchParams(id);
+
+        return ResponseEntity.ok(idtos);
+    }
+
+    @GetMapping("/search")
     ResponseEntity<List> getCustomersBySearchParams (
             @RequestParam(required = false) String lastname,
             @RequestParam(required = false) String postcode,

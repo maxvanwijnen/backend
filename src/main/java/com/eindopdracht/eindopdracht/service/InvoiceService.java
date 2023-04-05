@@ -85,7 +85,7 @@ public class InvoiceService {
     }
 
 
-    public List getInvoicesBySearchParams(Integer customerId) {
+    public List getInvoicesBySearchParams(Long customerId) {
         Iterable<Invoice> invoices = invoiceRepos.findByCustomerId(customerId);
 
         List<InvoiceDto> invoicesDtos = new ArrayList<>();
