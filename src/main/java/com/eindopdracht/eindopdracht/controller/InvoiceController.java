@@ -67,8 +67,8 @@ public class InvoiceController {
     ResponseEntity<List> getInvoicesBySearchParams (
             @RequestParam(required = false) Long customerId
     ) {
-        List<CustomerDto> cdtos = service.getInvoicesBySearchParams(customerId);
-        return ResponseEntity.ok(cdtos);
+        List<InvoiceDto> idtos = service.getInvoicesBySearchParams(customerId);
+        return ResponseEntity.ok(idtos);
     }
 
 

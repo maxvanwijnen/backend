@@ -4,7 +4,6 @@ import com.eindopdracht.eindopdracht.dto.CarDto;
 import com.eindopdracht.eindopdracht.dto.CustomerDto;
 import com.eindopdracht.eindopdracht.dto.InvoiceDto;
 import com.eindopdracht.eindopdracht.service.CarService;
-import com.eindopdracht.eindopdracht.service.CustomerService;
 import com.eindopdracht.eindopdracht.service.InvoiceService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -18,63 +17,68 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("customers")
-public class CustomerController {
+@RequestMapping("cars")
+public class CarController {
 
-    private final CustomerService service;
-    private final InvoiceService invoiceService;
     private final CarService carService;
 
-    public CustomerController(CustomerService service, InvoiceService invoiceService, CarService carService) {
-        this.service = service;
-        this.invoiceService = invoiceService;
-        this.carService = carService;
+    public CarController(CarService service) {
+        this.carService = service;
+
     }
 
-   @GetMapping
-    ResponseEntity<List<CustomerDto>> getCustomers() {
-        List<CustomerDto> cdtos = service.getCustomers();
+    @GetMapping
+    ResponseEntity<List<CarDto>> getCars() {
+        List<CarDto> cdtos = carService.getCars();
         return ResponseEntity.ok(cdtos);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<CustomerDto> getCustomer(@PathVariable Long id) {
-        CustomerDto cdto = service.getCustomer(id);
+    ResponseEntity<CarDto> getInvoice(@PathVariable Long id) {
+        CarDto cdto = carService.getCar(id);
 
         return ResponseEntity.ok(cdto);
     }
 
-    @GetMapping("/{id}/invoices")
-    ResponseEntity<List> getInvoice(@PathVariable Long id) {
-
-        List<InvoiceDto> idtos = invoiceService.getInvoicesBySearchParams(id);
-
-        return ResponseEntity.ok(idtos);
-    }
-
-    @GetMapping("/{id}/cars")
-    ResponseEntity<List> getCars(@PathVariable Long id) {
-
-        List<CarDto> cdtos = carService.getCarsBySearchParams(null,null,id);
-
-        return ResponseEntity.ok(cdtos);
-    }
-
-    @GetMapping("/search")
-    ResponseEntity<List> getCustomersBySearchParams (
-            @RequestParam(required = false) String lastname,
-            @RequestParam(required = false) String postcode,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String phone
-    ) {
-        List<CustomerDto> cdtos = service.getCustomersBySearchParams(lastname, postcode, email, phone);
-        return ResponseEntity.ok(cdtos);
-    }
-
-
 
 
     @PostMapping
+    public ResponseEntity<Object> createCar(@Valid @RequestBody CarDto cdto, BindingResult br) {
+
+        if (br.hasFieldErrors()){
+            StringBuilder sb = new StringBuilder();
+            for (FieldError fe : br.getFieldErrors()) {
+                sb.append(fe.getField() + ": ");
+                sb.append(fe.getDefaultMessage() + "\n");
+            }
+            return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
+        }
+        Long id = carService.createCar(cdto);
+        cdto.id = id;
+
+        URI uri = URI.create(ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/" + id).toUriString());
+
+        return ResponseEntity.created(uri).body(cdto);
+    }
+
+
+
+    @GetMapping("/search")
+    ResponseEntity<List> getCarsBySearchParams (
+            @RequestParam(required = false) String licensePlate,
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) Long customerId
+    ) {
+        List<CarDto> cdtos = carService.getCarsBySearchParams(licensePlate, brand, customerId);
+        return ResponseEntity.ok(cdtos);
+    }
+
+
+
+
+
+/*    @PostMapping
     public ResponseEntity<Object> createCustomer(@Valid @RequestBody CustomerDto cdto, BindingResult br) {
 
         if (br.hasFieldErrors()){
@@ -85,13 +89,13 @@ public class CustomerController {
             }
             return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
-        Long id = service.createCustomer(cdto);
+        Long id = service.createInvoice(idto);
         cdto.id = id;
 
         URI uri = URI.create(ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/" + id).toUriString());
 
         return ResponseEntity.created(uri).body(cdto);
-    }
+    }*/
 
 }
