@@ -3,6 +3,7 @@ package com.eindopdracht.eindopdracht.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.List;
 
 @Entity
@@ -18,8 +19,11 @@ public class Car {
     private String color;
     private Integer numberOfDoors;
     private String transmission;
+
+    /*@JsonFormat(pattern = "dd-MM-yyyy")*/
     private LocalDate year;
 
+    /*@JsonFormat(pattern = "dd-MM-yyyy")*/
     private LocalDate lastCheck;
 
     @ManyToOne

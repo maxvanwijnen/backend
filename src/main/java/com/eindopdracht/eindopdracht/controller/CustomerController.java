@@ -1,7 +1,9 @@
 package com.eindopdracht.eindopdracht.controller;
 
+import com.eindopdracht.eindopdracht.dto.CarDto;
 import com.eindopdracht.eindopdracht.dto.CustomerDto;
 import com.eindopdracht.eindopdracht.dto.InvoiceDto;
+import com.eindopdracht.eindopdracht.service.CarService;
 import com.eindopdracht.eindopdracht.service.CustomerService;
 import com.eindopdracht.eindopdracht.service.InvoiceService;
 import jakarta.validation.Valid;
@@ -21,11 +23,12 @@ public class CustomerController {
 
     private final CustomerService service;
     private final InvoiceService invoiceService;
+    private final CarService carService;
 
-    public CustomerController(CustomerService service, InvoiceService invoiceService) {
+    public CustomerController(CustomerService service, InvoiceService invoiceService, CarService carService) {
         this.service = service;
-
         this.invoiceService = invoiceService;
+        this.carService = carService;
     }
 
    @GetMapping
@@ -47,6 +50,14 @@ public class CustomerController {
         List<InvoiceDto> idtos = invoiceService.getInvoicesBySearchParams(id);
 
         return ResponseEntity.ok(idtos);
+    }
+
+    @GetMapping("/{id}/cars")
+    ResponseEntity<List> getCars(@PathVariable Long id) {
+
+        List<CarDto> cdtos = carService.getCarsBySearchParams(null,null,id);
+
+        return ResponseEntity.ok(cdtos);
     }
 
     @GetMapping("/search")

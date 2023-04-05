@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface CarRepository extends CrudRepository<Car, Long> {
 
-    Iterable<Car> findByLicensePlateContainingOrBrandContaining(String licencePlate, String Brand);
+    Iterable<Car> findByLicensePlateContainingOrBrandContainingOrCustomerId(String licencePlate, String brand, Long customerId);
 }

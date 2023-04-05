@@ -86,8 +86,8 @@ tedoen workorders moeten hier straks in een loopje worden opgehaald
     }
 
 
-    public List getCarsBySearchParams(String licensePlate, String Brand) {
-        Iterable<Car> cars = carRepos.findByLicensePlateContainingOrBrandContaining(licensePlate, Brand);
+    public List getCarsBySearchParams(String licensePlate, String brand, Long customerId) {
+        Iterable<Car> cars = carRepos.findByLicensePlateContainingOrBrandContainingOrCustomerId(licensePlate, brand, customerId);
 
         List<CarDto> carDtos = new ArrayList<>();
 

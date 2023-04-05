@@ -43,7 +43,7 @@ public class CarController {
 
 
     @PostMapping
-    public ResponseEntity<Object> createInvoice(@Valid @RequestBody CarDto cdto, BindingResult br) {
+    public ResponseEntity<Object> createCar(@Valid @RequestBody CarDto cdto, BindingResult br) {
 
         if (br.hasFieldErrors()){
             StringBuilder sb = new StringBuilder();
@@ -67,9 +67,10 @@ public class CarController {
     @GetMapping("/search")
     ResponseEntity<List> getCarsBySearchParams (
             @RequestParam(required = false) String licensePlate,
-            @RequestParam(required = false) String brand
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) Long customerId
     ) {
-        List<CarDto> cdtos = carService.getCarsBySearchParams(licensePlate, brand);
+        List<CarDto> cdtos = carService.getCarsBySearchParams(licensePlate, brand, customerId);
         return ResponseEntity.ok(cdtos);
     }
 
