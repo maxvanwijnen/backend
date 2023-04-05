@@ -63,14 +63,13 @@ public class InvoiceController {
 
 
 
-  /*  @GetMapping("search")
+    @GetMapping("/search")
     ResponseEntity<List> getInvoicesBySearchParams (
-            @RequestParam(required = false) String lastname,
-
+            @RequestParam(required = false) Long customerId
     ) {
-        List<CustomerDto> cdtos = service.getCustomersBySearchParams(lastname, postcode, email, phone);
+        List<CustomerDto> cdtos = service.getInvoicesBySearchParams(customerId);
         return ResponseEntity.ok(cdtos);
-    }*/
+    }
 
 
 

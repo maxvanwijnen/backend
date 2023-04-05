@@ -89,14 +89,20 @@ public class InvoiceService {
         Iterable<Invoice> invoices = invoiceRepos.findByCustomerId(customerId);
 
         List<InvoiceDto> invoicesDtos = new ArrayList<>();
+
+
         for (Invoice i : invoices) {
             InvoiceDto idto = new InvoiceDto();
-            idto.id = i.getId();
-            idto.tax = i.getTax();
 
+            idto.tax = i.getTax();
             idto.totalBeforeTax = i.getTotalBeforeTax();
             idto.totalAfterTax = i.getTotalAfterTax();
+            idto.id = i.getId();
+            idto.isPayed = i.isPayed();
             invoicesDtos.add(idto);
+            if (i.getCustomer() != null){
+                idto.customerId = i.getCustomer().getId();
+            }
         }
         return invoicesDtos;
     }
