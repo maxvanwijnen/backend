@@ -22,6 +22,11 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Invoice> invoices;
 
+    @OneToMany(mappedBy = "customer")
+    private List<Car> cars;
+
+
+
     public Long getId() {
         return id;
     }
@@ -32,6 +37,14 @@ public class Customer {
 
     public void setInvoices(List<Invoice> invoices) {
         this.invoices = invoices;
+    }
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
     }
 
     public void setId(Long id) {

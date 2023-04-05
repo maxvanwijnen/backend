@@ -1,8 +1,9 @@
 package com.eindopdracht.eindopdracht.controller;
 
+import com.eindopdracht.eindopdracht.dto.CarDto;
 import com.eindopdracht.eindopdracht.dto.CustomerDto;
 import com.eindopdracht.eindopdracht.dto.InvoiceDto;
-import com.eindopdracht.eindopdracht.service.CustomerService;
+import com.eindopdracht.eindopdracht.service.CarService;
 import com.eindopdracht.eindopdracht.service.InvoiceService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -16,33 +17,33 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("invoices")
-public class InvoiceController {
+@RequestMapping("cars")
+public class CarController {
 
-    private final InvoiceService service;
+    private final CarService carService;
 
-    public InvoiceController(InvoiceService service) {
-        this.service = service;
+    public CarController(CarService service) {
+        this.carService = service;
 
     }
 
     @GetMapping
-    ResponseEntity<List<InvoiceDto>> getInvoices() {
-        List<InvoiceDto> idtos = service.getInvoices();
-        return ResponseEntity.ok(idtos);
+    ResponseEntity<List<CarDto>> getCars() {
+        List<CarDto> cdtos = carService.getCars();
+        return ResponseEntity.ok(cdtos);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<InvoiceDto> getInvoice(@PathVariable Long id) {
-        InvoiceDto idto = service.getInvoice(id);
+    ResponseEntity<CarDto> getInvoice(@PathVariable Long id) {
+        CarDto cdto = carService.getCar(id);
 
-        return ResponseEntity.ok(idto);
+        return ResponseEntity.ok(cdto);
     }
 
 
 
     @PostMapping
-    public ResponseEntity<Object> createInvoice(@Valid @RequestBody InvoiceDto idto, BindingResult br) {
+    public ResponseEntity<Object> createInvoice(@Valid @RequestBody CarDto cdto, BindingResult br) {
 
         if (br.hasFieldErrors()){
             StringBuilder sb = new StringBuilder();
@@ -52,23 +53,24 @@ public class InvoiceController {
             }
             return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
-        Long id = service.createInvoice(idto);
-        idto.id = id;
+        Long id = carService.createCar(cdto);
+        cdto.id = id;
 
         URI uri = URI.create(ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/" + id).toUriString());
 
-        return ResponseEntity.created(uri).body(idto);
+        return ResponseEntity.created(uri).body(cdto);
     }
 
 
 
     @GetMapping("/search")
-    ResponseEntity<List> getInvoicesBySearchParams (
-            @RequestParam(required = false) Long customerId
+    ResponseEntity<List> getCarsBySearchParams (
+            @RequestParam(required = false) String licensePlate,
+            @RequestParam(required = false) String brand
     ) {
-        List<InvoiceDto> idtos = service.getInvoicesBySearchParams(customerId);
-        return ResponseEntity.ok(idtos);
+        List<CarDto> cdtos = carService.getCarsBySearchParams(licensePlate, brand);
+        return ResponseEntity.ok(cdtos);
     }
 
 
