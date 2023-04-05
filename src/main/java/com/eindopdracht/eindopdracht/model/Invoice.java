@@ -18,7 +18,7 @@ public class Invoice {
     Integer totalAfterTax;
 
     @ManyToOne
-    @JoinTable(name = "customer_id")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     List<String> orderLines = new ArrayList();

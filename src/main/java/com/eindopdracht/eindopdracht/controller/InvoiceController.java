@@ -40,6 +40,29 @@ public class InvoiceController {
     }
 
 
+
+    @PostMapping
+    public ResponseEntity<Object> createInvoice(@Valid @RequestBody InvoiceDto idto, BindingResult br) {
+
+        if (br.hasFieldErrors()){
+            StringBuilder sb = new StringBuilder();
+            for (FieldError fe : br.getFieldErrors()) {
+                sb.append(fe.getField() + ": ");
+                sb.append(fe.getDefaultMessage() + "\n");
+            }
+            return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
+        }
+        Long id = service.createInvoice(idto);
+        idto.id = id;
+
+        URI uri = URI.create(ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/" + id).toUriString());
+
+        return ResponseEntity.created(uri).body(idto);
+    }
+
+
+
   /*  @GetMapping("search")
     ResponseEntity<List> getInvoicesBySearchParams (
             @RequestParam(required = false) String lastname,

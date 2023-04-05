@@ -15,28 +15,37 @@ import java.util.List;
 @Service
 public class InvoiceService {
 
-    private final InvoiceRepository repos;
+    private final InvoiceRepository invoiceRepos;
+    private final CustomerRepository customerRepos;
 
-    public InvoiceService(InvoiceRepository repos) {
-        this.repos = repos;
+    public InvoiceService(InvoiceRepository invoiceRepository, CustomerRepository customerRepository) {
+
+        this.invoiceRepos = invoiceRepository;
+        this.customerRepos = customerRepository;
+
     }
 
     public Long createInvoice(InvoiceDto idto) {
         Invoice i = new Invoice();
+        //nogdoen
+        //checken of er een id is
+        //checken of de customer wel bestaat
+        Customer customer = customerRepos.findById(idto.customerId).get();
 
         i.setTotalBeforeTax(idto.totalBeforeTax);
         i.setTax(idto.tax);
         i.setTotalAfterTax(idto.totalAfterTax);
         i.setOrderLines(idto.orderLines);
         i.setPayed(false);
+        i.setCustomer(customer);
 
-        repos.save(i);
+        invoiceRepos.save(i);
 
         return i.getId();
     }
 
     public InvoiceDto getInvoice(Long id) {
-        Invoice i = repos.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invoice not found"));
+        Invoice i = invoiceRepos.findById(id).orElseThrow(() -> new ResourceNotFoundException("Invoice not found"));
 
         InvoiceDto idto = new InvoiceDto();
 
@@ -46,12 +55,15 @@ public class InvoiceService {
         idto.totalBeforeTax = i.getTotalBeforeTax();
         idto.orderLines = (ArrayList<String>) i.getOrderLines();
         idto.isPayed = i.isPayed();
+        if (i.getCustomer() != null){
+            idto.customerId = i.getCustomer().getId();
+        }
 
         return idto;
     }
 
     public List getInvoices() {
-        Iterable<Invoice> invoices = repos.findAll();
+        Iterable<Invoice> invoices = invoiceRepos.findAll();
 
         List<InvoiceDto> invoiceDtos = new ArrayList<>();
         for (Invoice i : invoices) {
@@ -62,6 +74,10 @@ public class InvoiceService {
             idto.totalBeforeTax = i.getTotalBeforeTax();
             idto.totalAfterTax = i.getTotalAfterTax();
             idto.isPayed = i.isPayed();
+            if (i.getCustomer() != null){
+                idto.customerId = i.getCustomer().getId();
+            }
+
 
             invoiceDtos.add(idto);
         }
@@ -70,7 +86,7 @@ public class InvoiceService {
 
 
     public List getInvoicesBySearchParams(Integer customerId) {
-        Iterable<Invoice> invoices = repos.findByCustomerId(customerId);
+        Iterable<Invoice> invoices = invoiceRepos.findByCustomerId(customerId);
 
         List<InvoiceDto> invoicesDtos = new ArrayList<>();
         for (Invoice i : invoices) {

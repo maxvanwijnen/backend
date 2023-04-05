@@ -26,6 +26,14 @@ public class Customer {
         return id;
     }
 
+    public List<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(List<Invoice> invoices) {
+        this.invoices = invoices;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

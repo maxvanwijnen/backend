@@ -3,6 +3,7 @@ package com.eindopdracht.eindopdracht.service;
 import com.eindopdracht.eindopdracht.dto.CustomerDto;
 import com.eindopdracht.eindopdracht.exception.ResourceNotFoundException;
 import com.eindopdracht.eindopdracht.model.Customer;
+import com.eindopdracht.eindopdracht.model.Invoice;
 import com.eindopdracht.eindopdracht.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,11 @@ public class CustomerService {
         cdto.address = c.getAddress();
         cdto.phone = c.getPhone();
         cdto.postcode = c.getPostcode();
+
+
+      for (Invoice i : c.getInvoices()){
+            cdto.invoices.add(i.getId());
+        }
 
         return cdto;
     }
