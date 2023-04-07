@@ -7,20 +7,57 @@ import jakarta.persistence.*;
 public class Orderline {
     @Id
     @GeneratedValue
-    Long id;
+    private Long id;
 
-    String description;
+    private String description;
 
     @OneToOne
-    CarPart carpart;
+    private CarPart carPart;
 
-    Integer costs;
+    private Integer costs;
 
     @ManyToOne
     @JoinColumn(name = "workorder_id")
     private WorkOrder workOrder;
 
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public CarPart getCarPart() {
+        return carPart;
+    }
+
+    public void setCarPart(CarPart carPart) {
+        this.carPart = carPart;
+    }
+
+    public Integer getCosts() {
+        return costs;
+    }
+
+    public void setCosts(Integer costs) {
+        this.costs = costs;
+    }
+
+    public WorkOrder getWorkOrder() {
+        return workOrder;
+    }
+
+    public void setWorkOrder(WorkOrder workOrder) {
+        this.workOrder = workOrder;
+    }
 }
