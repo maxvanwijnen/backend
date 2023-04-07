@@ -10,5 +10,5 @@ import java.util.Optional;
 
 public interface WorkingDayRepository extends CrudRepository<WorkingDay, Long> {
 
-    WorkingDay findFirstByDate(LocalDate date);
+    Optional<WorkingDay> findFirstByDate(LocalDate date);
 }

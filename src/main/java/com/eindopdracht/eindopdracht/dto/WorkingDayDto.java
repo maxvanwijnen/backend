@@ -14,5 +14,4 @@ public class WorkingDayDto {
     public List<WorkOrder> workOrders;
 
     public LocalDate date;
-
 }
