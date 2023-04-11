@@ -1,6 +1,7 @@
 package com.eindopdracht.eindopdracht.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -10,7 +11,7 @@ public class CarPartDto {
     @NotBlank
     public String name;
 
-    @NotBlank
+    @NotNull
     public Integer stockAmount;
 
 

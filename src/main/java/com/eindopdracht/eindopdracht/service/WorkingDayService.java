@@ -2,6 +2,7 @@ package com.eindopdracht.eindopdracht.service;
 
 import com.eindopdracht.eindopdracht.dto.CustomerDto;
 import com.eindopdracht.eindopdracht.dto.WorkingDayDto;
+import com.eindopdracht.eindopdracht.exception.DuplicateException;
 import com.eindopdracht.eindopdracht.exception.ResourceNotFoundException;
 import com.eindopdracht.eindopdracht.model.Customer;
 import com.eindopdracht.eindopdracht.model.Invoice;
@@ -25,18 +26,24 @@ public class WorkingDayService {
 
     public Long createWorkingDay(WorkingDayDto wdto) {
 
-        //check of de datum al bestaat
+        Optional<WorkingDay> optionalDay = dayRepos.findFirstByDate(wdto.date);
 
-        //als de datum bestaat gooi een error
+        if (optionalDay.isPresent()) {
+            throw new DuplicateException("Werkdag bestaat al");
+        }
+        else {
+            WorkingDay w = new WorkingDay();
 
-        //als de datum nog niet bestaat maak een nieuwe
-        WorkingDay w = new WorkingDay();
+            w.setDate(wdto.date);
+            dayRepos.save(w);
+            return w.getId();
+        }
 
-        w.setDate(wdto.date);
 
-        dayRepos.save(w);
 
-        return w.getId();
+
+
+
     }
 
     public WorkingDayDto getWorkingDay(LocalDate date) {
