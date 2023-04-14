@@ -1,5 +1,6 @@
 package com.eindopdracht.eindopdracht.controller;
 
+import com.eindopdracht.eindopdracht.exception.BadRequestException;
 import com.eindopdracht.eindopdracht.exception.DuplicateException;
 import com.eindopdracht.eindopdracht.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,11 @@ public class ExceptionController {
     @ExceptionHandler(DuplicateException.class)
     public ResponseEntity<String> handleDuplicateException(DuplicateException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<String> badRequestException(BadRequestException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 

@@ -1,15 +1,14 @@
 package com.eindopdracht.eindopdracht.service;
 
 import com.eindopdracht.eindopdracht.dto.CarDto;
-import com.eindopdracht.eindopdracht.dto.CustomerDto;
+import com.eindopdracht.eindopdracht.exception.DuplicateException;
 import com.eindopdracht.eindopdracht.exception.ResourceNotFoundException;
 import com.eindopdracht.eindopdracht.model.Car;
 import com.eindopdracht.eindopdracht.model.Customer;
-import com.eindopdracht.eindopdracht.model.Invoice;
 import com.eindopdracht.eindopdracht.repository.CarRepository;
 import com.eindopdracht.eindopdracht.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
-
+import com.eindopdracht.eindopdracht.helper.DtoMapper;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,84 +24,75 @@ public class CarService {
     }
 
     public Long createCar(CarDto cdto) {
-        Car c = new Car();
-        Customer customer = cusRepos.findById(cdto.customerId).get();
-        c.setBrand(cdto.brand);
-        c.setModel(cdto.model);
-        c.setColor(cdto.color);
-        c.setYear(cdto.year);
-        c.setLicensePlate(cdto.licensePlate);
-        c.setCustomer(customer);
+        Car car = new Car();
+        Customer customer = cusRepos.findById(cdto.customerId).orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
-        carRepos.save(c);
+        DtoMapper.mapDtoToEntity(cdto, car);
+        car.setCustomer(customer);
+        carRepos.save(car);
 
-        return c.getId();
+        return car.getId();
     }
 
     public CarDto getCar(Long id) {
         Car c = carRepos.findById(id).orElseThrow(() -> new ResourceNotFoundException("Car not found"));
 
         CarDto cdto = new CarDto();
-        cdto.id = c.getId();
-        cdto.brand = c.getBrand();
-        cdto.model = c.getModel();
-        cdto.color = c.getColor();
-        cdto.year = c.getYear();
-        cdto.customerId = c.getCustomer().getId();
-        cdto.lastCheck = c.getLastCheck();
-        cdto.numberOfDoors = c.getNumberOfDoors();
-        cdto.licensePlate = c.getLicensePlate();
-        cdto.transmission = c.getTransmission();
 
-/*
-tedoen workorders moeten hier straks in een loopje worden opgehaald
-      for (Invoice i : c.getCars()){
-            cdto.invoices.add(i.getId());
-        }*/
+        cdto = DtoMapper.mapEntityToDto(cdto, c);
+        cdto.customerId = c.getCustomer().getId();
 
         return cdto;
     }
 
-    public List getCars() {
+
+
+
+    public List<CarDto> getCars() {
         Iterable<Car> cars = carRepos.findAll();
+        if(!cars.iterator().hasNext()){
+            throw new ResourceNotFoundException("No cars found, add a car first");
+        }
 
         List<CarDto> carDtos = new ArrayList<>();
-        for (Car c : cars) {
-            CarDto cdto = new CarDto();
-            cdto.id = c.getId();
-            cdto.brand = c.getBrand();
-            cdto.model = c.getModel();
-            cdto.color = c.getColor();
-            cdto.year = c.getYear();
-            cdto.customerId = c.getCustomer().getId();
-            cdto.lastCheck = c.getLastCheck();
-            cdto.numberOfDoors = c.getNumberOfDoors();
-            cdto.licensePlate = c.getLicensePlate();
-            cdto.transmission = c.getTransmission();
 
-            carDtos.add(cdto);
+        for (Car car : cars) {
+
+            CarDto carDto = new CarDto();
+
+            carDto = DtoMapper.mapEntityToDto(carDto, car);
+            carDto.customerId = car.getCustomer().getId();
+
+            carDtos.add(carDto);
         }
+
         return carDtos;
     }
 
 
+
+
+
+
     public List getCarsBySearchParams(String licensePlate, String Brand) {
+
+        if (licensePlate == null && Brand == null){
+            throw new DuplicateException("invalid searchparameter, licendePlate and Brand are valid search parameters");
+        }
+
         Iterable<Car> cars = carRepos.findByLicensePlateContainingOrBrandContaining(licensePlate, Brand);
+
+        if(!cars.iterator().hasNext()){
+            throw new ResourceNotFoundException("Car cannot be found, try another search query");
+        }
+
 
         List<CarDto> carDtos = new ArrayList<>();
 
         for (Car c : cars) {
             CarDto cdto = new CarDto();
-            cdto.id = c.getId();
-            cdto.brand = c.getBrand();
-            cdto.model = c.getModel();
-            cdto.color = c.getColor();
-            cdto.year = c.getYear();
+            cdto = DtoMapper.mapEntityToDto(cdto, c);
             cdto.customerId = c.getCustomer().getId();
-            cdto.lastCheck = c.getLastCheck();
-            cdto.numberOfDoors = c.getNumberOfDoors();
-            cdto.licensePlate = c.getLicensePlate();
-            cdto.transmission = c.getTransmission();
             carDtos.add(cdto);
         }
         return carDtos;

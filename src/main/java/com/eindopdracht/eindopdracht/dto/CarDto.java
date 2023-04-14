@@ -20,12 +20,15 @@ public class CarDto {
     @NotBlank
     public String brand;
 
+    @NotBlank
     public String model;
     public String color;
     public Integer numberOfDoors;
     public String transmission;
     public LocalDate year;
+
     public LocalDate lastCheck;
+
     public Long customerId;
 
 
