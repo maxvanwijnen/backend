@@ -2,6 +2,8 @@ package com.eindopdracht.eindopdracht.service;
 
 import com.eindopdracht.eindopdracht.dto.CarDto;
 import com.eindopdracht.eindopdracht.dto.CarPartDto;
+import com.eindopdracht.eindopdracht.exception.ResourceNotFoundException;
+import com.eindopdracht.eindopdracht.helper.DtoMapper;
 import com.eindopdracht.eindopdracht.model.Car;
 import com.eindopdracht.eindopdracht.model.CarPart;
 import com.eindopdracht.eindopdracht.model.Customer;
@@ -40,6 +42,10 @@ public class CarPartService {
 
     public List getCarParts() {
         Iterable<CarPart> carParts = carPartRepos.findAll();
+        if(!carParts.iterator().hasNext()){
+            throw new ResourceNotFoundException("No carparts found, add a one first");
+        }
+
         List<CarPartDto> carPartDtos = new ArrayList<>();
         for (CarPart c : carParts) {
             CarPartDto cdto = new CarPartDto();
@@ -51,8 +57,17 @@ public class CarPartService {
         }
         return carPartDtos;
     }
+    public CarPartDto getCarPart(Long id) {
+        CarPart cp = carPartRepos.findById(id).orElseThrow(() -> new ResourceNotFoundException("Carpart not found"));
 
-    public List getCarPartsBySearchParams(String name, Integer stockAmount, String GreaterOrLess) {
+        CarPartDto cpdto = new CarPartDto();
+
+        cpdto = DtoMapper.mapEntityToDto(cpdto, cp);
+
+        return cpdto;
+    }
+
+    public List getCarPartsBySearchParams(Integer stockAmount, String name) {
 
         Iterable<CarPart> carParts;
 
@@ -60,15 +75,7 @@ public class CarPartService {
             carParts = carPartRepos.findByNameContaining(name);
         }
         else {
-            if (GreaterOrLess == ">"){
-                carParts = carPartRepos.findByStockAmountGreaterThan(stockAmount);
-            }
-            else if (GreaterOrLess == "<"){
-                carParts = carPartRepos.findByStockAmountGreaterThan(stockAmount);
-            }
-            else {
-                carParts = carPartRepos.findByStockAmount(stockAmount);
-            }
+            carParts = carPartRepos.findByStockAmountLessThanEqual(stockAmount);
         }
 
 

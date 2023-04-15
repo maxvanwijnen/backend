@@ -10,7 +10,7 @@ public interface CarPartRepository extends CrudRepository<CarPart, Long> {
 
     Iterable<CarPart> findByStockAmountGreaterThan(Integer stockAmount);
 
-    Iterable<CarPart> findByStockAmount(Integer stockAmount);
+    Iterable<CarPart> findByStockAmountLessThanEqual(Integer stockAmount);
 
 
 }

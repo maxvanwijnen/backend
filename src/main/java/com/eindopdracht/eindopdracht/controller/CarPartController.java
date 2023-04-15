@@ -32,12 +32,21 @@ public class CarPartController {
         return ResponseEntity.ok(cdtos);
     }
 
-/*    @GetMapping("/{id}")
-    ResponseEntity<CarPartDto> getInvoice(@PathVariable Long id) {
-        CarPartDto cdto = cpService.getCarPart(id);
+    @GetMapping("/{id}")
+    ResponseEntity<CarPartDto> getCarPart(@PathVariable Long id) {
+        CarPartDto cpdto = cpService.getCarPart(id);
 
-        return ResponseEntity.ok(cdto);
-    }*/
+        return ResponseEntity.ok(cpdto);
+    }
+
+    @GetMapping("/search")
+    ResponseEntity<List> getCarPartsBySearchParams (
+            @RequestParam(required = false) Integer stock,
+            @RequestParam(required = false) String name
+    ) {
+        List<CarPartDto> cpdtos = cpService.getCarPartsBySearchParams(stock, name);
+        return ResponseEntity.ok(cpdtos);
+    }
 
 
 
