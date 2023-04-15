@@ -29,20 +29,14 @@ public class WorkingDayService {
         Optional<WorkingDay> optionalDay = dayRepos.findFirstByDate(wdto.date);
 
         if (optionalDay.isPresent()) {
-            throw new DuplicateException("Werkdag bestaat al");
-        }
-        else {
-            WorkingDay w = new WorkingDay();
-
-            w.setDate(wdto.date);
-            dayRepos.save(w);
-            return w.getId();
+            throw new DuplicateException("Workingday already exists");
         }
 
+        WorkingDay w = new WorkingDay();
 
-
-
-
+        w.setDate(wdto.date);
+        dayRepos.save(w);
+        return w.getId();
 
     }
 
@@ -68,6 +62,10 @@ public class WorkingDayService {
 
     public List getWorkingDays() {
         Iterable<WorkingDay> workingDays = dayRepos.findAll();
+        if(!workingDays.iterator().hasNext()){
+            throw new ResourceNotFoundException("No workingsdays found, add a one first");
+        }
+
 
         List<WorkingDayDto> workingDayDtos = new ArrayList<>();
         for (WorkingDay w : workingDays) {

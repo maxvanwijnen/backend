@@ -53,6 +53,31 @@ VALUES (7, '2023-06-02');
 INSERT INTO workingdays (id, date)
 VALUES (8, '2023-06-03');
 
+INSERT INTO carparts (name, stock_amount) VALUES ('Remschijf', 10);
+INSERT INTO carparts (name, stock_amount) VALUES ('Remblokken', 25);
+INSERT INTO carparts (name, stock_amount) VALUES ('Luchtfilter', 50);
+INSERT INTO carparts (name, stock_amount) VALUES ('Oliefilter', 35);
+INSERT INTO carparts (name, stock_amount) VALUES ('Brandstoffilter', 20);
+INSERT INTO carparts (name, stock_amount) VALUES ('Waterpomp', 5);
+INSERT INTO carparts (name, stock_amount) VALUES ('Dynamo', 12);
+INSERT INTO carparts (name, stock_amount) VALUES ('Radiateur', 8);
+INSERT INTO carparts (name, stock_amount) VALUES ('Remslang', 15);
+INSERT INTO carparts (name, stock_amount) VALUES ('Stuurbekrachtigingspomp', 3);
+INSERT INTO carparts (name, stock_amount) VALUES ('Distributieriem', 7);
+INSERT INTO carparts (name, stock_amount) VALUES ('Bougies', 40);
+INSERT INTO carparts (name, stock_amount) VALUES ('Startmotor', 2);
+INSERT INTO carparts (name, stock_amount) VALUES ('Draagarm', 9);
+INSERT INTO carparts (name, stock_amount) VALUES ('Fuseekogel', 13);
+INSERT INTO carparts (name, stock_amount) VALUES ('Stabilisatorstang', 6);
+INSERT INTO carparts (name, stock_amount) VALUES ('Uitlaat', 22);
+INSERT INTO carparts (name, stock_amount) VALUES ('Koppeling', 4);
+INSERT INTO carparts (name, stock_amount) VALUES ('Versnellingsbak', 1);
+INSERT INTO carparts (name, stock_amount) VALUES ('V-snaar', 30);
+
+
+
+
+
 
 
 
