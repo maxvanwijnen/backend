@@ -36,6 +36,30 @@ INSERT INTO cars (license_plate, brand, model, color, number_of_doors, transmiss
 VALUES ('OP-789-ST', 'Opel', 'Corsa', 'Rood', 5, 'Handgeschakeld', '2019-09-01', '2022-03-18', 5);
 
 
+INSERT INTO workingdays (id, date)
+VALUES (1,'2023-05-05');
+INSERT INTO workingdays (id, date)
+VALUES (2, '2023-05-22');
+INSERT INTO workingdays (id, date)
+VALUES (3, '2023-05-23');
+INSERT INTO workingdays (id, date)
+VALUES (4, '2023-05-24');
+INSERT INTO workingdays (id, date)
+VALUES (5, '2023-05-25');
+INSERT INTO workingdays (id, date)
+VALUES (6, '2023-06-01');
+INSERT INTO workingdays (id, date)
+VALUES (7, '2023-06-02');
+INSERT INTO workingdays (id, date)
+VALUES (8, '2023-06-03');
+
+
+
+
+
+
+
+
 
 
 
