@@ -70,10 +70,12 @@ public class WorkOrderService {
 
     public Long createWorkOrder(WorkOrderDto wdto) {
         WorkOrder w = new WorkOrder();
-        //kijk of er al een working datebestaat met deze datum
+
+        //kijk of er al een workingday datebestaat met deze datum
         //haaldeze op
-        Optional<WorkingDay> optionalDay = wDayRepos.findFirstByDate(LocalDate.ofEpochDay(2023-04-12));
+        Optional<WorkingDay> optionalDay = wDayRepos.findFirstByDate(wdto.workingDay.getDate());
         WorkingDay wd = optionalDay.orElseThrow(() -> new ResourceNotFoundException("WorkingDay not found"));
+
 
 
  /*       w.setCar(wdto.car);

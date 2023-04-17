@@ -23,28 +23,19 @@ public class WorkOrderController {
 
     private final WorkOrderService woService;
 
-    public WorkOrderController(WorkOrder woService) {
+    public WorkOrderController(WorkOrderService woService) {
         this.woService = woService;
     }
 
     @GetMapping
-    ResponseEntity<List<WorkOrder>> getWorkOrders() {
+    ResponseEntity<List<WorkOrderDto>> getWorkOrders() {
         List<WorkOrderDto> wodtos = woService.getWorkOrders();
         return ResponseEntity.ok(wodtos);
     }
 
-    @GetMapping("/{date}")
-    ResponseEntity<Object> getWorkingDay(@PathVariable LocalDate date) {
-
-
-
-        //List<WorkingDayDto> wdtos = dayService.getWorkingDay(date);
-        WorkingDayDto wdto = dayService.getWorkingDay(date);
-        return ResponseEntity.ok(wdto);
-    }
 
     @PostMapping
-    public ResponseEntity<Object> createWorkingDay(@Valid @RequestBody WorkingDayDto wdto, BindingResult br) {
+    public ResponseEntity<Object> createWorkingDay(@Valid @RequestBody WorkOrderDto wdto, BindingResult br) {
 
         if (br.hasFieldErrors()){
             StringBuilder sb = new StringBuilder();
@@ -54,7 +45,7 @@ public class WorkOrderController {
             }
             return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
-        Long id = dayService.createWorkingDay(wdto);
+        Long id = woService.createWorkOrder(wdto);
         wdto.id = id;
 
         URI uri = URI.create(ServletUriComponentsBuilder

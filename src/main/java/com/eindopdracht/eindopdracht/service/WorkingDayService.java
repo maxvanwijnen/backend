@@ -63,7 +63,7 @@ public class WorkingDayService {
     public List getWorkingDays() {
         Iterable<WorkingDay> workingDays = dayRepos.findAll();
         if(!workingDays.iterator().hasNext()){
-            throw new ResourceNotFoundException("No workingsdays found, add a one first");
+            throw new ResourceNotFoundException("No workingdays found, add a one first");
         }
 
 
