@@ -79,15 +79,13 @@ public class CarPartService {
         }
 
 
-
-
         List<CarPartDto> carPartDtos = new ArrayList<>();
 
         for (CarPart c : carParts) {
             CarPartDto cdto = new CarPartDto();
-            cdto.id = c.getId();
-            cdto.name = c.getName();
-            cdto.stockAmount = c.getStockAmount();
+
+            cdto = DtoMapper.mapEntityToDto(cdto, c);
+
             carPartDtos.add(cdto);
         }
         return carPartDtos;
